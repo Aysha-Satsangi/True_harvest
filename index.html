@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>True Harvest — Traceable Food</title>
+
+    <!-- Tailwind CDN (play) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- html5-qrcode -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .qr-modal {
+            z-index: 60;
+        }
+    </style>
+</head>
+
+<body class="antialiased text-gray-800">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full bg-emerald-700 text-white shadow z-50">
+        <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-4">
+            <div class="flex items-center gap-3">
+                <div class="text-2xl font-extrabold">🌿 True Harvest</div>
+                <div class="hidden sm:block text-sm opacity-90">From Farm to You — Transparent, Trusted, Traceable</div>
+            </div>
+
+            <!-- Nav -->
+            <nav>
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="#home" class="hover:underline">Home</a>
+                    <a href="#about" class="hover:underline">About</a>
+                    <a href="#farmers" class="hover:underline">Farmers</a>
+                    <a href="#journey" class="hover:underline">Product Journey</a>
+                    <a href="#cart" class="hover:underline">Cart</a>
+                    <a href="#contact" class="hover:underline">Contact</a>
+                </div>
+
+                <!-- Mobile hamburger -->
+                <div class="sm:hidden">
+                    <button id="menuBtn" aria-label="Toggle menu" class="p-2">
+                        <svg id="menuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg id="menuClose" class="hidden w-6 h-6" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Mobile menu panel -->
+        <div id="mobileMenu" class="sm:hidden hidden bg-emerald-600/95">
+            <div class="flex flex-col gap-1 px-4 py-3">
+                <a href="#home" class="block py-2" onclick="toggleMobileMenu()">Home</a>
+                <a href="#about" class="block py-2" onclick="toggleMobileMenu()">About</a>
+                <a href="#farmers" class="block py-2" onclick="toggleMobileMenu()">Farmers</a>
+                <a href="#journey" class="block py-2" onclick="toggleMobileMenu()">Product Journey</a>
+                <a href="#cart" class="block py-2" onclick="toggleMobileMenu()">Cart</a>
+                <a href="#contact" class="block py-2" onclick="toggleMobileMenu()">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-20">
+
+        <!-- HOME (hero) -->
+        <section id="home" class="h-screen min-h-[640px] flex items-center justify-center relative bg-cover bg-center"
+            style="background-image:url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1600&q=80')">
+            <div class="absolute inset-0 bg-black/45"></div>
+            <div class="relative z-10 text-center px-6">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-white drop-shadow mb-4">From Farm to You —
+                    Transparent, Trusted, Traceable</h1>
+                <p class="text-white/90 max-w-2xl mx-auto mb-6">Trace your food’s journey and support verified local
+                    farmers. Scan a QR to view full traceability details.</p>
+                <div class="flex items-center justify-center gap-4">
+                    <button id="openScannerBtn"
+                        class="bg-amber-500 hover:bg-amber-600 text-white font-medium px-6 py-3 rounded-lg shadow">Scan
+                        QR to Trace Your Food</button>
+                    <a href="#farmers"
+                        class="bg-white/90 hover:bg-white text-emerald-800 px-6 py-3 rounded-lg font-medium">Browse
+                        Farmers</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT (with visible heading) -->
+        <section id="about" class="h-screen flex items-center justify-center bg-white px-6">
+            <div class="max-w-6xl w-full">
+                <!-- Visible ABOUT heading -->
+                <h2 class="text-3xl font-bold text-emerald-800 mb-6 text-center">About Us</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Left column: Problem & Impact for Consumers -->
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">The Problem</h3>
+                            <p class="text-gray-700 leading-relaxed">Opaque supply chains lead to distrust, low farmer
+                                incomes, and unverifiable claims.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Impact for Consumers</h3>
+                            <p class="text-gray-700 leading-relaxed">Know your food’s origin, verify organic claims, and
+                                support local farmers directly with confidence.</p>
+                        </div>
+                    </div>
+
+                    <!-- Right column: Solution & Impact for Farmers -->
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Our Solution</h3>
+                            <p class="text-gray-700 leading-relaxed">QR traceability + blockchain verification + direct
+                                farmer profiles ensure full transparency.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Impact for Farmers</h3>
+                            <p class="text-gray-700 leading-relaxed">Premium pricing, market access, brand trust, and
+                                rewards for sustainable practices.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FARMERS -->
+        <section id="farmers" class="h-screen flex items-center justify-center bg-emerald-50 px-6">
+            <div class="max-w-6xl w-full">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-6 text-center">Meet Our Farmers</h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Farmer card: Ravi -->
+                    <article class="bg-white rounded-xl shadow p-4 flex flex-col">
+                        <img class="rounded-lg h-44 w-full object-cover mb-3" src="/images/tomato.jpg" alt="Ravi">
+                        <h3 class="text-lg font-semibold">Ravi Kumar</h3>
+                        <p class="text-sm text-gray-600">Location: Nashik, Maharashtra</p>
+                        <p class="mt-2 text-gray-700">Crop: Organic Tomatoes</p>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div>
+                                <div class="text-emerald-700 font-semibold">₹40 / kg</div>
+                                <div class="text-sm text-gray-500">Available: 200 kg</div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <button class="px-3 py-2 bg-emerald-600 text-white rounded-lg text-sm"
+                                    onclick="showJourney('Ravi Kumar')">Trace</button>
+                                <button class="px-3 py-2 border border-emerald-600 text-emerald-600 rounded-lg text-sm"
+                                    onclick="addToCart('Organic Tomatoes',40)">Add to Cart</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Farmer: Meera -->
+                    <article class="bg-white rounded-xl shadow p-4 flex flex-col">
+                        <img class="rounded-lg h-44 w-full object-cover mb-3" src="/images/Wheat.jpeg" alt="Meera">
+                        <h3 class="text-lg font-semibold">Meera Devi</h3>
+                        <p class="text-sm text-gray-600">Location: Jaipur, Rajasthan</p>
+                        <p class="mt-2 text-gray-700">Crop: Fresh Wheat</p>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div>
+                                <div class="text-emerald-700 font-semibold">₹30 / kg</div>
+                                <div class="text-sm text-gray-500">Available: 500 kg</div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <button class="px-3 py-2 bg-emerald-600 text-white rounded-lg text-sm"
+                                    onclick="showJourney('Meera Devi')">Trace</button>
+                                <button class="px-3 py-2 border border-emerald-600 text-emerald-600 rounded-lg text-sm"
+                                    onclick="addToCart('Fresh Wheat',30)">Add to Cart</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Farmer: Harjit -->
+                    <article class="bg-white rounded-xl shadow p-4 flex flex-col">
+                        <img class="rounded-lg h-44 w-full object-cover mb-3" src="/images/rice.jpg" alt="Harjit">
+                        <h3 class="text-lg font-semibold">Harjit Singh</h3>
+                        <p class="text-sm text-gray-600">Location: Ludhiana, Punjab</p>
+                        <p class="mt-2 text-gray-700">Crop: Premium Rice</p>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div>
+                                <div class="text-emerald-700 font-semibold">₹55 / kg</div>
+                                <div class="text-sm text-gray-500">Available: 300 kg</div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <button class="px-3 py-2 bg-emerald-600 text-white rounded-lg text-sm"
+                                    onclick="showJourney('Harjit Singh')">Trace</button>
+                                <button class="px-3 py-2 border border-emerald-600 text-emerald-600 rounded-lg text-sm"
+                                    onclick="addToCart('Premium Rice',55)">Add to Cart</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCT JOURNEY (full details for each product) -->
+        <section id="journey" class="h-screen flex items-center justify-center bg-white px-6">
+            <div class="max-w-4xl w-full">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-6 text-center">Product Journey</h2>
+                <div id="journeyContainer" class="space-y-4">
+                    <div class="text-center text-gray-500">Click "Trace" on any farmer to view their product journey
+                        here, or scan a QR.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CART (kept small) -->
+        <section id="cart" class="h-screen flex items-center justify-center bg-emerald-50 px-6">
+            <div class="max-w-3xl w-full">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-6 text-center">Your Cart</h2>
+                <div id="cartList" class="bg-white rounded-lg p-6 shadow space-y-3 min-h-[120px]">
+                    <div class="text-gray-500">Your cart is empty.</div>
+                </div>
+                <div class="mt-4 flex justify-end gap-3">
+                    <button class="px-4 py-2 rounded-lg bg-white border border-emerald-600 text-emerald-600"
+                        onclick="clearCart()">Clear</button>
+                    <button class="px-4 py-2 rounded-lg bg-emerald-600 text-white" onclick="placeOrder()">Place
+                        Order</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT (large form like image) -->
+        <section id="contact" class="h-screen flex items-center justify-center bg-white px-6">
+            <div class="max-w-4xl w-full">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-6">Contact Us</h2>
+
+                <form id="contactForm" class="space-y-4 bg-gray-50 border rounded-lg p-6 shadow">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input required name="name" placeholder="Name"
+                            class="p-3 rounded border border-gray-300 w-full" />
+                        <input required type="email" name="email" placeholder="Email"
+                            class="p-3 rounded border border-gray-300 w-full" />
+                    </div>
+
+                    <textarea name="message" rows="6" placeholder="Message"
+                        class="p-3 rounded border border-gray-300 w-full"></textarea>
+
+                    <div>
+                        <button type="submit"
+                            class="bg-amber-400 hover:bg-amber-500 text-emerald-900 font-semibold px-5 py-3 rounded">Send
+                            Message</button>
+                    </div>
+                </form>
+
+                <p class="mt-4 text-gray-600">Or email us directly: <a class="text-emerald-700 font-medium"
+                        href="mailto:info@trueharvest.com">info@trueharvest.com</a></p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-emerald-900 text-white py-4">
+        <div class="max-w-6xl mx-auto text-center">© 2025 True Harvest. All rights reserved.</div>
+    </footer>
+
+    <!-- QR Scanner Modal (hidden by default) -->
+    <div id="qrModal" class="fixed inset-0 bg-black/60 qr-modal hidden items-center justify-center p-4">
+        <div class="bg-white w-full max-w-3xl rounded-xl overflow-hidden shadow-lg">
+            <div class="flex items-center justify-between px-4 py-3 border-b">
+                <h3 class="text-lg font-semibold">Scan QR to Trace Product</h3>
+                <div class="flex items-center gap-2">
+                    <span id="scannerStatus" class="text-sm text-gray-600">Ready</span>
+                    <button id="closeScanner" class="px-3 py-1 rounded bg-rose-500 text-white">Close</button>
+                </div>
+            </div>
+
+            <div class="p-4">
+                <!-- camera viewer -->
+                <div id="reader" class="mx-auto" style="width:100%;max-width:640px"></div>
+
+                <div id="qrHelp" class="mt-4 text-sm text-gray-600 text-center">
+                    Point your camera at the product QR code. (Demo QR content can include "Ravi", "Meera", or
+                    "Harjit".)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* Mobile menu toggle */
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOpen = document.getElementById('menuOpen');
+        const menuClose = document.getElementById('menuClose');
+
+        menuBtn?.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuOpen.classList.toggle('hidden');
+            menuClose.classList.toggle('hidden');
+        });
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.add('hidden');
+            menuOpen.classList.remove('hidden');
+            menuClose.classList.add('hidden');
+        }
+
+        /* Simple cart logic */
+        const cart = [];
+        function addToCart(item, price) {
+            cart.push({ item, price });
+            renderCart();
+            toast(`${item} added to cart`);
+        }
+        function renderCart() {
+            const list = document.getElementById('cartList');
+            if (!cart.length) {
+                list.innerHTML = `<div class="text-gray-500">Your cart is empty.</div>`;
+                return;
+            }
+            list.innerHTML = cart.map((c, i) => `
+      <div class="flex justify-between items-center">
+        <div>
+          <div class="font-medium">${c.item}</div>
+          <div class="text-sm text-gray-500">₹${c.price}</div>
+        </div>
+        <div class="text-sm text-gray-600">#${i + 1}</div>
+      </div>
+    `).join('');
+        }
+        function clearCart() {
+            cart.length = 0; renderCart();
+        }
+        function placeOrder() {
+            if (!cart.length) return alert('Cart empty');
+            alert('Order placed (demo). Thank you!');
+            cart.length = 0; renderCart();
+        }
+
+        /* Journey data */
+        const journeyData = {
+            "Ravi Kumar": {
+                product: "Organic Tomatoes",
+                farm: "Ravi Kumar, Nashik, Maharashtra",
+                timeline: [
+                    "Seeded — March 15, 2025",
+                    "Transplanted — April 20, 2025",
+                    "Growing Phase — May–Aug 2025",
+                    "Harvested — Aug 20, 2025",
+                    "Packed — Aug 21, 2025",
+                    "Delivered — Aug 22, 2025"
+                ],
+                notes: "Soil Health: 60% moisture | Water Usage: −25% | Pest Control: 100% natural",
+            },
+            "Meera Devi": {
+                product: "Fresh Wheat",
+                farm: "Meera Devi, Jaipur, Rajasthan",
+                timeline: [
+                    "Seeded — March 15, 2025",
+                    "Transplanted — April 20, 2025",
+                    "Growing Phase — May–Aug 2025",
+                    "Harvested — Aug 20, 2025",
+                    "Packed — Aug 21, 2025",
+                    "Delivered — Aug 22, 2025"
+                ],
+                notes: "Soil Health: 60% moisture | Water Usage: −25% | Pest Control: 100% natural",
+            },
+            "Harjit Singh": {
+                product: "Premium Rice",
+                farm: "Harjit Singh, Ludhiana, Punjab",
+                timeline: [
+                    "Seeded — March 15, 2025",
+                    "Transplanted — April 20, 2025",
+                    "Growing Phase — May–Aug 2025",
+                    "Harvested — Aug 20, 2025",
+                    "Packed — Aug 21, 2025",
+                    "Delivered — Aug 22, 2025"
+                ],
+                notes: "Soil Health: 60% moisture | Water Usage: −25% | Pest Control: 100% natural",
+            }
+        };
+
+        function showJourney(name) {
+            const d = journeyData[name];
+            if (!d) {
+                document.getElementById('journeyContainer').innerHTML = `<div class="text-red-500">No journey found for ${name}</div>`;
+                return;
+            }
+            const html = `
+      <div class="bg-emerald-50 border rounded-lg p-6">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+          <div>
+            <h3 class="text-xl font-semibold">${d.product} — <span class="text-emerald-700">${name}</span></h3>
+            <p class="text-sm text-gray-600 mt-1">${d.farm}</p>
+          </div>
+          <div class="text-sm text-gray-700 font-medium">Verification: <span class="text-emerald-600">✅ Blockchain Verified</span></div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <h4 class="font-semibold text-gray-700 mb-2">Timeline</h4>
+            <ul class="list-disc ml-5 text-gray-700">
+              ${d.timeline.map(step => `<li>${step}</li>`).join('')}
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-700 mb-2">Farming Data</h4>
+            <p class="text-gray-700">${d.notes}</p>
+            <div class="mt-4 text-sm text-gray-600">More details: Soil tests, harvesting batch ID, and transport logs (demo data).</div>
+          </div>
+        </div>
+      </div>
+    `;
+            document.getElementById('journeyContainer').innerHTML = html;
+            document.querySelector('#journey').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* Contact form demo submit */
+        document.getElementById('contactForm')?.addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Message sent (demo). Thank you!');
+            this.reset();
+        });
+
+        /* Toast helper */
+        function toast(msg) {
+            const t = document.createElement('div');
+            t.textContent = msg;
+            t.className = 'fixed bottom-8 right-6 bg-emerald-700 text-white px-4 py-2 rounded shadow';
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 1800);
+        }
+
+        /* QR Scanner modal behavior (start camera when modal opens) */
+        const openScannerBtn = document.getElementById('openScannerBtn');
+        const qrModal = document.getElementById('qrModal');
+        const closeScanner = document.getElementById('closeScanner');
+        const scannerStatus = document.getElementById('scannerStatus');
+
+        let html5QrCode = null;
+        let scannerRunning = false;
+
+        async function openScanner() {
+            qrModal.classList.remove('hidden');
+
+            // initialize scanner if not already
+            if (!html5QrCode) {
+                html5QrCode = new Html5Qrcode("reader", /* verbose= */ false);
+            }
+
+            const config = { fps: 10, qrbox: { width: 300, height: 300 } };
+            const constraints = { facingMode: "environment" };
+
+            try {
+                await html5QrCode.start(constraints, config,
+                    qrText => {
+                        scannerStatus.textContent = 'Scanned';
+                        if (qrText.toLowerCase().includes('ravi')) {
+                            showJourney('Ravi Kumar');
+                            closeScannerModal();
+                        } else if (qrText.toLowerCase().includes('meera')) {
+                            showJourney('Meera Devi');
+                            closeScannerModal();
+                        } else if (qrText.toLowerCase().includes('harjit')) {
+                            showJourney('Harjit Singh');
+                            closeScannerModal();
+                        } else {
+                            scannerStatus.textContent = 'Unknown QR — ' + (qrText.length > 40 ? qrText.slice(0, 40) + '...' : qrText);
+                            // keep scanning
+                        }
+                    },
+                    err => {
+                        // non-fatal scan errors
+                        scannerStatus.textContent = 'Scanning...';
+                    }
+                );
+                scannerRunning = true;
+                scannerStatus.textContent = 'Scanning...';
+            } catch (err) {
+                console.error('QR start failed', err);
+                scannerStatus.textContent = 'Camera error / permission denied';
+            }
+        }
+
+        function closeScannerModal() {
+            qrModal.classList.add('hidden');
+            if (html5QrCode && scannerRunning) {
+                html5QrCode.stop().then(() => {
+                    scannerRunning = false;
+                    scannerStatus.textContent = 'Stopped';
+                }).catch(err => {
+                    console.error('stop failed', err);
+                    scannerStatus.textContent = 'Stopped';
+                });
+            }
+        }
+
+        openScannerBtn?.addEventListener('click', openScanner);
+        closeScanner?.addEventListener('click', closeScannerModal);
+
+        // close when clicking overlay
+        qrModal.addEventListener('click', (e) => {
+            if (e.target === qrModal) closeScannerModal();
+        });
+
+        // Ensure clicking nav closes mobile menu
+        document.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => {
+            if (!mobileMenu.classList.contains('hidden')) toggleMobileMenu();
+        }));
+
+        // init empty cart
+        renderCart();
+    </script>
+</body>
+
+</html>
